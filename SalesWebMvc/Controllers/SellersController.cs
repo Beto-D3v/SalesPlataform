@@ -40,6 +40,11 @@ namespace SalesWebMvc.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Seller seller)
         {
+            if (!ModelState.IsValid)
+            {
+                //Aqui, estou falando para preencher corretamente o obj, caso contrário, faço ele ficar na mesma view
+                return View(seller);
+            }
             _sellerService.Insert(seller);
             return RedirectToAction(nameof(Index));
         }
@@ -66,6 +71,7 @@ namespace SalesWebMvc.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)
         {
+
             _sellerService.Remove(id);
             return RedirectToAction(nameof(Index));
         }
@@ -112,6 +118,14 @@ namespace SalesWebMvc.Controllers
 
         public IActionResult Edit(int id, Seller seller)
         {
+
+            if (!ModelState.IsValid)
+            {
+                var departments = _departmentService.FindAll();
+                var viewModel = new SellerFormViewModel { Seller = seller, Departments = departments };
+                return View(viewModel);
+            }
+
             if (id != seller.Id)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id not mismatch" });
