@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Collections.Generic;
+
 
 namespace SalesWebMvc.Models
 {
@@ -28,7 +28,7 @@ namespace SalesWebMvc.Models
 
         public double TotalSales(DateTime initial, DateTime final)
         {
-            return Sellers.Sum(x => x.TotalSales(initial, final));
+            return Sellers.Sum(seller => seller.TotalSales(initial, final));
         }
 
     }
